@@ -1,0 +1,7 @@
+dependencies:
+  override:
+    - coffee -c .
+
+test:
+  override:
+    - npm run-script test-unit
