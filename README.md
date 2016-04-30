@@ -17,6 +17,7 @@ conn = new MySQL config
 
 # Connect
 conn.connect (err) ->
+  # Do stuff
 ```
 
 ```coffeescript
@@ -34,7 +35,7 @@ conn.selectAll {table}, (err, res) ->
 # Select all columns in a table with where clause
 # SELECT * FROM `table` WHERE `id` = 1
 where = id: 1
-conn.selectAll {table}, (err, res) ->
+conn.selectAll {table, where}, (err, res) ->
 ```
 
 ```coffeescript
