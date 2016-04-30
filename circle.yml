@@ -1,7 +1,7 @@
 ## Customize dependencies
 dependencies:
   pre:
-    - npm install mocha
+    - npm install mocha -g
 
 ## Customize test commands
 test:
