@@ -10,4 +10,4 @@ checkout:
 
 test:
   override:
-    - cd ./mysql-adapter && npm run-script test-unit
+    - npm run-script test-unit
