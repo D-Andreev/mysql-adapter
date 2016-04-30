@@ -1,7 +1,8 @@
 dependencies:
   override:
     - npm install
+    - coffee -cwo js .
 
 test:
   override:
-    - mocha ./specs/ --compilers coffee:coffee-script/register --recursive
+    - npm run-script test-unit
