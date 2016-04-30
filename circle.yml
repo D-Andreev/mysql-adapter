@@ -2,13 +2,6 @@ dependencies:
   override:
     - npm install
 
-checkout:
-  post:
-    - git clone https://github.com/D-Andreev/mysql-adapter.git
-    - cd ./mysql-adapter
-    - git checkout master
-
-
 test:
   override:
     - npm run-script test-unit
