@@ -4,7 +4,8 @@
   "description": "MySQL Adapter",
   "author": "Dimitar Andreev",
   "scripts": {
-    "test-unit": "mocha ./specs/ --recursive"
+    "test-unit": "mocha ./specs/ --recursive",
+    "test-unit": "./node_modules/cucumber/bin/cucumber.js ./features/my_feature.feature"
   },
   "repository": {
     "type": "git",

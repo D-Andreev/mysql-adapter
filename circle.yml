@@ -5,7 +5,10 @@ dependencies:
     - npm install -g coffeelint
     - coffeelint -f coffeelint.json .
     - npm install
+    - npm install -g cucember
+    - sh ./install
 
 test:
   override:
     - npm run-script test-unit
+    - npm run-script test-feature
