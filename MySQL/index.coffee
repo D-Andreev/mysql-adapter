@@ -3,8 +3,8 @@ _ = require 'lodash'
 
 module.exports = class MySQL
 
-  constructor: (@config) ->
-    @conn = mysql.createConnection @config
+  constructor: (config) ->
+    @conn = mysql.createConnection config
 
 
   connect: (done) ->
@@ -45,7 +45,7 @@ module.exports = class MySQL
   insertOne: ({table, row, ignore}, done) ->
     ignore = if ignore then 'IGNORE' else ''
     sql = "INSERT #{ignore} INTO `#{table}` (#{@_buildColumns _.keys row}) VALUES (#{@_escape _.values row})"
-    console.log 'sql', sql
+
     @query sql, done
 
 
@@ -72,7 +72,11 @@ module.exports = class MySQL
 
   _buildWhereClause: (where) ->
     return '' if _.isUndefined where
-    "WHERE #{@_escape where}".replace ', ', ' && '
+
+    sql = 'WHERE '
+    _.forEach where, (v, k) => sql += "`#{k}` = #{@_escape v} && "
+
+    sql.substring 0, sql.length - 4
 
 
   _buildSetClause: (row) ->

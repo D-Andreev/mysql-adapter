@@ -1,7 +1,7 @@
 {
   "name": "mysql-adapter",
   "version": "0.0.1",
-  "description": "MySql Adapter",
+  "description": "MySQL Adapter",
   "author": "Dimitar Andreev",
   "scripts": {
     "test-unit": "mocha --recursive ./specs"

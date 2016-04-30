@@ -1,8 +1,8 @@
 MySQL = require '../../MySQL'
 chai = require 'chai'
+chai.use require 'sinon-chai'
 {expect} = chai
 sinon = require 'sinon'
-chai.use require 'sinon-chai'
 
 
 describe 'MySQL', ->
@@ -22,8 +22,7 @@ describe 'MySQL', ->
     @mysql.conn.query = sinon.stub()
     @done = sinon.stub()
 
-    @table1 = 'users'
-    @table2 = 'pictures'
+    @table = 'users'
     @where = id: 1
     @columns = ['id', 'first_name']
     @row =
@@ -63,7 +62,7 @@ describe 'MySQL', ->
 
     it 'sends the query', ->
       sql = 'SELECT * FROM users'
-      @mysql.query sql, ->
+      @mysql.query sql, @done
       expect(@mysql.conn.query).to.have.been.calledWith sql
 
 
@@ -72,7 +71,7 @@ describe 'MySQL', ->
     context 'without where clause', ->
 
       beforeEach ->
-        @mysql.selectAll {table: @table1}, @done
+        @mysql.selectAll {@table}, @done
         @expectedSql = 'SELECT * FROM users'
 
       it 'builds the sql and sends it', ->
@@ -82,7 +81,7 @@ describe 'MySQL', ->
     context 'with where clause', ->
 
       beforeEach ->
-        @mysql.selectAll {table: @table1, @where}, @done
+        @mysql.selectAll {@table, @where}, @done
         @expectedSql = 'SELECT * FROM users WHERE `id` = 1'
 
 
@@ -95,7 +94,7 @@ describe 'MySQL', ->
     context 'without where clause', ->
 
       beforeEach ->
-        @mysql.select {table: @table1, @columns}, @done
+        @mysql.select {@table, @columns}, @done
         @expectedSql = 'SELECT `id`, `first_name` FROM users'
 
 
@@ -106,7 +105,7 @@ describe 'MySQL', ->
     context 'with where clause', ->
 
       beforeEach ->
-        @mysql.select {table: @table1, @columns, @where}, @done
+        @mysql.select {@table, @columns, @where}, @done
         @expectedSql = 'SELECT `id`, `first_name` FROM users WHERE `id` = 1'
 
 
@@ -116,14 +115,18 @@ describe 'MySQL', ->
 
   describe 'join', ->
 
+    beforeEach ->
+      @table1 = @table
+      @table2 = 'pictures'
+      @joinType = 'RIGHT'
+      @joinBy = id: 'picture_id'
+
     context 'without where clause', ->
 
       context 'without columns', ->
 
         beforeEach ->
-          joinType = 'RIGHT'
-          joinBy = id: 'picture_id'
-          @mysql.join {@table1, @table2, joinBy, joinType}, @done
+          @mysql.join {@table1, @table2, @joinBy, @joinType}, @done
           @expectedSql = '
                     SELECT * FROM `users`
                     RIGHT JOIN `pictures` on users.id=pictures.picture_id'
@@ -136,9 +139,7 @@ describe 'MySQL', ->
       context 'with columns', ->
 
         beforeEach ->
-          joinType = 'RIGHT'
-          joinBy = id: 'picture_id'
-          @mysql.join {@table1, @table2, @columns, joinBy, joinType}, @done
+          @mysql.join {@table1, @table2, @columns, @joinBy, @joinType}, @done
           @expectedSql = '
                               SELECT `id`, `first_name` FROM `users`
                               RIGHT JOIN `pictures` on users.id=pictures.picture_id'
@@ -153,9 +154,7 @@ describe 'MySQL', ->
       context 'without columns', ->
 
         beforeEach ->
-          joinType = 'RIGHT'
-          joinBy = id: 'picture_id'
-          @mysql.join {@table1, @table2, @where, joinBy, joinType}, @done
+          @mysql.join {@table1, @table2, @where, @joinBy, @joinType}, @done
           @expectedSql = '
             SELECT * FROM `users`
             RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
@@ -168,9 +167,7 @@ describe 'MySQL', ->
       context 'with columns', ->
 
         beforeEach ->
-          joinType = 'RIGHT'
-          joinBy = id: 'picture_id'
-          @mysql.join {@table1, @table2, @columns, @where, joinBy, joinType}, @done
+          @mysql.join {@table1, @table2, @columns, @where, @joinBy, @joinType}, @done
           @expectedSql = '
             SELECT `id`, `first_name` FROM `users`
             RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
@@ -185,7 +182,7 @@ describe 'MySQL', ->
     context 'without ignore', ->
 
       beforeEach ->
-        @mysql.insertOne {table: @table1, @row, ignore: false}, @done
+        @mysql.insertOne {@table, @row, ignore: false}, @done
         @expectedSql = "
           INSERT  INTO `users` (`first_name`, `last_name`, `email`)
           VALUES ('firstName', 'lastName', 'email')"
@@ -198,7 +195,7 @@ describe 'MySQL', ->
     context 'with ignore', ->
 
       beforeEach ->
-        @mysql.insertOne {table: @table1, @row, ignore: true}, @done
+        @mysql.insertOne {@table, @row, ignore: true}, @done
         @expectedSql = "
                   INSERT IGNORE INTO `users` (`first_name`, `last_name`, `email`)
                   VALUES ('firstName', 'lastName', 'email')"
@@ -213,7 +210,7 @@ describe 'MySQL', ->
     context 'without where clause', ->
 
       beforeEach ->
-        @mysql.update {table: @table1, @row}, @done
+        @mysql.update {@table, @row}, @done
         @expectedSql = "
           UPDATE users
            SET first_name = 'firstName', last_name = 'lastName', email = 'email'"
@@ -225,7 +222,7 @@ describe 'MySQL', ->
     context 'with where clause', ->
 
       beforeEach ->
-        @mysql.update {table: @table1, @row, @where}, @done
+        @mysql.update {@table, @row, @where}, @done
         @expectedSql = "
                   UPDATE users
                    SET first_name = 'firstName', last_name = 'lastName', email = 'email'
@@ -233,9 +230,3 @@ describe 'MySQL', ->
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
-
-
-  describe 'escape', ->
-
-    it 'escapes', ->
-      expect(@mysql.conn.escape 'string').to.eql "'string'"
