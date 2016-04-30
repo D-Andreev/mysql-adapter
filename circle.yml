@@ -4,10 +4,10 @@ dependencies:
 
 checkout:
   post:
-    - git submodule sync
-    - git submodule update --init
+    - git clone https://github.com/D-Andreev/mysql-adapter.git
+    - git checkout master
 
 
 test:
   override:
-    - npm run-script test-unit
+    - cd ./mysql-adapter && npm run-script test-unit
