@@ -4,7 +4,7 @@
   "description": "MySql Adapter",
   "author": "Dimitar Andreev",
   "scripts": {
-    "test-unit": "./node_modules/mocha/mocha.js"
+    "test-unit": "mocha --recursive ./specs"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0"
   },
