@@ -5,7 +5,8 @@
   "author": "Dimitar Andreev",
   "scripts": {
     "test-unit": "mocha ./specs/ --recursive",
-    "test-unit": "./node_modules/cucumber/bin/cucumber.js ./features/my_feature.feature"
+    "test-feature": "./node_modules/cucumber/bin/cucumber.js ./features/my_feature.feature",
+    "lint": "coffeelint -f coffeelint.json ."
   },
   "repository": {
     "type": "git",
