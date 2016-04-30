@@ -1,7 +1,6 @@
 dependencies:
   override:
-    - npm install
-    - coffee -cwo js .
+    - coffee -cwo coffee .
 
 test:
   override:
