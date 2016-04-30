@@ -1,0 +1,30 @@
+{
+  "name": "mysql-adapter",
+  "version": "0.0.1",
+  "description": "MySql Adapter",
+  "author": "Dimitar Andreev",
+  "scripts": {
+    "test-unit": "./node_modules/mocha/mocha.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/D-Andreev/mysql-adapter"
+  },
+  "bugs": {
+    "url": "https://github.com/D-Andreev/mysql-adapter/issues"
+  },
+  "keywords": [
+    "mysql",
+    "adapter"
+  ],
+  "dependencies": {
+    "lodash": "^4.11.1",
+    "mysql": "^2.10.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  },
+  "license": "MIT"
+}

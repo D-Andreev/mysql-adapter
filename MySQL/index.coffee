@@ -1,0 +1,95 @@
+mysql = require 'mysql'
+_ = require 'lodash'
+
+module.exports = class MySQL
+
+  constructor: (@config) ->
+    @conn = mysql.createConnection @config
+
+
+  connect: (done) ->
+    @conn.connect done
+
+
+  close: (done) ->
+    @conn.end done
+
+
+  destroy: ->
+    @conn.destroy()
+
+
+  query: (query, done) ->
+    @conn.query query.trim(), done()
+
+
+  selectAll: ({table, where}, done) ->
+    sql = "SELECT * FROM #{table} #{@_buildWhereClause where}"
+
+    @query sql, done
+
+
+  select: ({table, columns, where}, done) ->
+    sql = "SELECT #{@_buildColumns columns} FROM #{table} #{@_buildWhereClause where}"
+
+    @query sql, done
+
+    
+  join: ({table1, table2, joinType, columns, joinBy, where}, done) ->
+    sql = "SELECT #{@_buildColumns columns} FROM `#{table1}` #{joinType} "
+    sql += "JOIN `#{table2}` on #{@_buildJoin table1, table2, joinBy} #{@_buildWhereClause where}"
+
+    @query sql, done
+
+
+  insertOne: ({table, row, ignore}, done) ->
+    ignore = if ignore then 'IGNORE' else ''
+    sql = "INSERT #{ignore} INTO `#{table}` (#{@_buildColumns _.keys row}) VALUES (#{@_escape _.values row})"
+    console.log 'sql', sql
+    @query sql, done
+
+
+  update: ({table, row, where}, done) ->
+    sql = "UPDATE #{table} #{@_buildSetClause row} #{@_buildWhereClause where}"
+
+    @query sql, done
+
+
+  _escape: (string) ->
+    @conn.escape string
+
+
+  _buildJoin: (table1, table2, joinBy) ->
+    joinBy = [joinBy] unless Array.isArray joinBy
+    sql = ''
+    _.forEach joinBy, (el) ->
+      key = _.head _.keys el
+      value = _.head _.values el
+      sql += "#{table1}.#{key}=#{table2}.#{value} && "
+
+    sql.substring 0, sql.length - 4
+
+
+  _buildWhereClause: (where) ->
+    return '' if _.isUndefined where
+    "WHERE #{@_escape where}".replace ', ', ' && '
+
+
+  _buildSetClause: (row) ->
+    sql = "SET "
+    _.forEach row, (v, k) => sql += "#{k} = #{@_escape v}, "
+
+    sql.substring 0, sql.length - 2
+
+
+  _buildColumns: (columns) ->
+    return '*' if _.isUndefined columns
+    columnsStr = ''
+    _.forEach columns, (v) => columnsStr += "`#{v}`, "
+
+    columnsStr.substring 0, columnsStr.length - 2
+
+
+
+
+
