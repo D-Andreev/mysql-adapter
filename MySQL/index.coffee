@@ -20,7 +20,7 @@ module.exports = class MySQL
 
 
   query: (query, done) ->
-    @conn.query query.trim(), done()
+    @conn.query query.trim(), done
 
 
   selectAll: ({table, where}, done) ->

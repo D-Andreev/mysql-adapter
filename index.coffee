@@ -16,6 +16,6 @@ conn.connect ->
     email: 'changeadsdaadsadsd123'
   table = 'users'
 
-  conn.update {table, row, ignore: false}, (err, res) ->
+  conn.selectAll {table}, (err, res) ->
     return console.log err if err
     console.log res
