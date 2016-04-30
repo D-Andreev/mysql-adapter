@@ -1,9 +1,13 @@
-## Customize dependencies
 dependencies:
   pre:
     - npm install mocha -g
 
-## Customize test commands
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
+
 test:
   override:
     - npm run-script test-unit
