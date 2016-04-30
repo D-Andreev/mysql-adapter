@@ -4,7 +4,7 @@
   "description": "MySQL Adapter",
   "author": "Dimitar Andreev",
   "scripts": {
-    "test-unit": "mocha ./specs/MySQL/index.js"
+    "test-unit": "mocha ./specs/ --compilers coffee:coffee-script/register --recursive"
   },
   "repository": {
     "type": "git",

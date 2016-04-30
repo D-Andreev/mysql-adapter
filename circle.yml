@@ -4,4 +4,4 @@ dependencies:
 
 test:
   override:
-    - npm run-script test-unit
+    - mocha ./specs/ --compilers coffee:coffee-script/register --recursive
