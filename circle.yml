@@ -5,6 +5,7 @@ dependencies:
 checkout:
   post:
     - git clone https://github.com/D-Andreev/mysql-adapter.git
+    - cd ./mysql-adater
     - git checkout master
 
 
