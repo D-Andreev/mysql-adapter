@@ -1,6 +1,6 @@
 dependencies:
   override:
-    - coffee -cwo coffee .
+    - coffee -c .
 
 test:
   override:
