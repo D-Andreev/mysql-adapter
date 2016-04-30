@@ -1,7 +1,7 @@
 ## Customize dependencies
 dependencies:
   pre:
-    - npm install coffee-script # install from a different package manager
+    - npm install mocha
 
 ## Customize test commands
 test:
