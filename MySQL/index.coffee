@@ -88,8 +88,3 @@ module.exports = class MySQL
     _.forEach columns, (v) => columnsStr += "`#{v}`, "
 
     columnsStr.substring 0, columnsStr.length - 2
-
-
-
-
-
