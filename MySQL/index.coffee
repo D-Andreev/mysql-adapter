@@ -80,7 +80,7 @@ module.exports = class MySQL
 
 
   _buildSetClause: (row) ->
-    sql = "SET "
+    sql = 'SET '
     _.forEach row, (v, k) => sql += "#{k} = #{@_escape v}, "
 
     sql.substring 0, sql.length - 2
@@ -89,6 +89,6 @@ module.exports = class MySQL
   _buildColumns: (columns) ->
     return '*' if _.isUndefined columns
     columnsStr = ''
-    _.forEach columns, (v) => columnsStr += "`#{v}`, "
+    _.forEach columns, (v) -> columnsStr += "`#{v}`, "
 
     columnsStr.substring 0, columnsStr.length - 2
