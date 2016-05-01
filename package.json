@@ -1,6 +1,6 @@
 {
   "name": "mysql-adapter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MySQL Adapter",
   "author": "Dimitar Andreev",
   "scripts": {
