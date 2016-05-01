@@ -6,9 +6,9 @@ dependencies:
   override:
     - node -v
     - npm install -g coffee-script
+    - npm install -g coffeelint
     - rm -r ./node_modules
     - coffee -c .
-    - npm install -g coffeelint
     - coffeelint -f coffeelint.json .
     - npm install
     - sh ./features/scripts/install.sh
