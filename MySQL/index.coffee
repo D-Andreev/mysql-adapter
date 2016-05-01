@@ -55,6 +55,10 @@ module.exports = class MySQL
     @query sql, done
 
 
+  ping: (done) ->
+    @conn.ping done
+
+
   _escape: (string) ->
     @conn.escape string
 

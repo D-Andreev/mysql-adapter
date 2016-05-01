@@ -1,11 +1,19 @@
+machine:
+  node:
+    version: 4.4.3
+
 dependencies:
   override:
-    - coffee -c .
-    - rm -r ./node_modules
+    - node -v
+    - npm install -g coffee-script
     - npm install -g coffeelint
+    - rm -r ./node_modules
+    - coffee -c .
     - coffeelint -f coffeelint.json .
     - npm install
+    - sh ./features/scripts/install.sh
 
 test:
   override:
     - npm run-script test-unit
+    - npm run-script test-feature
