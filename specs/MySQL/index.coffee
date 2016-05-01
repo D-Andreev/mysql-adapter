@@ -20,6 +20,7 @@ describe 'MySQL', ->
     @mysql.conn.end = sinon.stub()
     @mysql.conn.destroy = sinon.stub()
     @mysql.conn.query = sinon.stub()
+    @mysql.conn.ping = sinon.stub()
     @done = sinon.stub()
 
     @table = 'users'
@@ -230,3 +231,10 @@ describe 'MySQL', ->
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+  describe 'ping', ->
+
+    it 'pings', ->
+      @mysql.ping @done
+      expect(@mysql.conn.ping).to.have.been.calledWithExactly @done

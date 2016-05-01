@@ -1,10 +1,15 @@
+MySQL = require '../../MySQL'
+mysql = new MySQL require '../../config.json'
+
 module.exports = ->
 
-  @Given /^I am on the Cucumber.js GitHub repository$/, (callback) ->
-    callback()
+  @When /^I connect to mysql$/, (done) ->
+    mysql.connect done
 
-  @When /^I go to the README file$/, (callback) ->
-    callback()
+
+  @Then /^I can ping$/, (done) ->
+    mysql.ping done
+
 
   @Then /^I should see "(.*)" as the page title$/, (title, callback) ->
     callback()
