@@ -32,4 +32,3 @@ query i, ->
     endTime = new Date()
     fs.appendFileSync './benchmark.txt', "Pool Connection - #{endTime - startTime}\n"
     process.exit 1
-

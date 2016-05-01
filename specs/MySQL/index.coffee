@@ -13,7 +13,7 @@ describe 'MySQL', ->
       user: 'root'
       password: ''
       database: 'users'
-    @mysql = new MySQL @config, true
+    @mysql = new MySQL @config
 
     @mysql.conn.createConnection = sinon.stub()
     @mysql.conn.connect = sinon.stub()
