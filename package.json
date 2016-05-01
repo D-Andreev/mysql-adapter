@@ -20,6 +20,7 @@
     "adapter"
   ],
   "dependencies": {
+    "coffee": "^3.2.1",
     "lodash": "^4.11.1",
     "mysql": "^2.10.2"
   },
