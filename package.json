@@ -1,6 +1,6 @@
 {
   "name": "mysql-adapter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "MySQL Adapter",
   "author": "Dimitar Andreev",
   "scripts": {
@@ -35,6 +35,5 @@
   },
   "license": "MIT",
   "homepage": "https://github.com/D-Andreev/mysql-adapter#readme",
-  "main": "index.js",
-  "readme": "README.md"
+  "main": "index.js"
 }
