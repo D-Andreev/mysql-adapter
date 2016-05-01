@@ -1,2 +1,2 @@
 module.exports =
-  MySQLAdapter: require './MySQL'
+  MySQL: require './MySQL'

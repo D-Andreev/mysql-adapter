@@ -1,4 +1,4 @@
-MySQL = require '../../MySQL'
+{MySQL} = require '../../index'
 config = require '../../config.json'
 mysql = new MySQL config
 results = false
