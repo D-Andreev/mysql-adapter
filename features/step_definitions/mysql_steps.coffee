@@ -9,7 +9,3 @@ module.exports = ->
 
   @Then /^I can ping$/, (done) ->
     mysql.ping done
-
-
-  @Then /^I should see "(.*)" as the page title$/, (title, callback) ->
-    callback()
