@@ -6,6 +6,11 @@ _ = require 'lodash'
 {expect} = require 'chai'
 where = {}
 columns = []
+joinBy = []
+joinType = ''
+table1 = ''
+table2 = ''
+updatedRow = {}
 
 module.exports = ->
 
@@ -72,6 +77,54 @@ module.exports = ->
 
   @When /^I perform the select on "([^"]*)"$/, (table, done) ->
     mysql.select {table, columns, where}, (err, res) ->
+      return done err if err
+      results = res
+      done()
+
+
+  @When /^I set to join the results from the tables "([^"]*)", "([^"]*)"$/, (t1, t2) ->
+    table1 = t1
+    table2 = t2
+
+
+  @When /^I set the join type to "([^"]*)"$/, (type) ->
+    joinType = type
+
+
+  @When /^I set to join by$/, (cols) ->
+    columns = []
+    joinBy = _.map cols.raw(), (el) ->
+      obj = {}
+      obj[el[0]] = el[1]
+      obj
+
+
+  @When /^I perform the join$/, (done) ->
+    mysql.join {table1, table2, joinType, joinBy}, (err, res) ->
+      return done err if err
+      results = res
+      done()
+
+
+  @When /^I insert into "([^"]*)" the row$/, (table, data, done) ->
+    row = {}
+    _.forEach data.raw(), (el) ->
+      row[el[0]] = el[1]
+
+    mysql.insertOne {table, row, ignore: false}, (err, res) ->
+      return done err if err
+      results = res
+      done()
+
+
+  @When /^I set the updated row to$/, (row) ->
+    updatedRow = {}
+    _.forEach row.raw(), (el) ->
+      updatedRow[el[0]] = el[1]
+
+
+  @When /^I update the row in "([^"]*)"/, (table, done) ->
+    mysql.update {table, row: updatedRow, where}, (err, res) ->
       return done err if err
       results = res
       done()

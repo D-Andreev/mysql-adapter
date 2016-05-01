@@ -1,3 +1,4 @@
+@Before @After
 Feature: I can do different mysql interactions
 
   Background: I connect to mysql
@@ -54,8 +55,8 @@ Feature: I can do different mysql interactions
       | first_name |
     And I perform the select on "users"
     Then I receive the following results
-      | id         | 1              |
-      | first_name | first          |
+      | id         | 1     |
+      | first_name | first |
 
 
   Scenario: I can select specific columns in a table without where clause
@@ -66,5 +67,104 @@ Feature: I can do different mysql interactions
       | first_name | first |
     And I perform the select on "users"
     Then I receive the following results
+      | id         | 1     |
+      | first_name | first |
+
+
+  Scenario: I can join results from selecting all columns from two tables without where clause
+    When I set to join the results from the tables "users", "user_pictures"
+    And I set the join type to "RIGHT"
+    And I set to join by
+      | id | user_id |
+    And I perform the join
+    Then I receive the following results
       | id         | 1              |
       | first_name | first          |
+      | last_name  | last           |
+      | email      | email@mail.com |
+      | password   | pass           |
+      | picture_id | 1              |
+      | user_id    | 1              |
+
+
+  Scenario: I can join results from selecting specific columns from two tables without where clause
+    When I set to select the following columns
+      | id         |
+      | first_name |
+    And I set to join the results from the tables "users", "user_pictures"
+    And I set the join type to "RIGHT"
+    And I set to join by
+      | id | user_id |
+    And I perform the join
+    Then I receive the following results
+      | id         | 1              |
+      | first_name | first          |
+
+
+  Scenario: I can join results from selecting all columns from two tables with where clause
+    When I set to join the results from the tables "users", "user_pictures"
+    And I set the where clause to
+      | picture_id | 1 |
+    And I set the join type to "RIGHT"
+    And I set to join by
+      | id | user_id |
+    And I perform the join
+    Then I receive the following results
+      | id         | 1              |
+      | first_name | first          |
+      | last_name  | last           |
+      | email      | email@mail.com |
+      | password   | pass           |
+      | picture_id | 1              |
+      | user_id    | 1              |
+
+
+  Scenario: I can join results from selecting specific columns from two tables with where clause
+    When I set to select the following columns
+      | id         |
+      | first_name |
+    And I set the where clause to
+      | picture_id | 1 |
+    And I set to join the results from the tables "users", "user_pictures"
+    And I set the join type to "RIGHT"
+    And I set to join by
+      | id | user_id |
+    And I perform the join
+    Then I receive the following results
+      | id         | 1              |
+      | first_name | first          |
+
+
+  Scenario: I can insert one row in a table
+    When I insert into "users" the row
+      | first_name | first2          |
+      | last_name  | last2           |
+      | email      | email@mail.com2 |
+      | password   | pass2           |
+    When I select all columns in "users" where
+      | id         | 2      |
+      | first_name | first2 |
+    Then I receive the following results
+      | id         | 2               |
+      | first_name | first2          |
+      | last_name  | last2           |
+      | email      | email@mail.com2 |
+      | password   | pass2           |
+
+
+  Scenario: I can update a row in a table
+    When I set the updated row to
+      | first_name | first3          |
+      | last_name  | last3           |
+      | email      | email@mail.com3 |
+      | password   | pass3           |
+    And I update the row in "users"
+    When I select all columns in "users" where
+      | email      | email@mail.com3 |
+      | first_name | first3          |
+    Then I receive the following results
+      | id         | 2               |
+      | first_name | first3          |
+      | last_name  | last3           |
+      | email      | email@mail.com3 |
+      | password   | pass3           |
