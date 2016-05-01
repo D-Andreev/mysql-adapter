@@ -5,7 +5,7 @@ dependencies:
     - npm install -g coffeelint
     - coffeelint -f coffeelint.json .
     - npm install
-    - sh ./install
+    - sh ./features/scripts/install.sh
 
 test:
   override:
