@@ -3,8 +3,11 @@ _ = require 'lodash'
 
 module.exports = class MySQL
 
-  constructor: (config) ->
-    @conn = mysql.createConnection config
+  constructor: (config, usePool) ->
+    if usePool
+      @conn = mysql.createPool config
+    else
+      @conn = mysql.createConnection config
 
 
   connect: (done) ->
