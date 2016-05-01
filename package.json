@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/D-Andreev/mysql-adapter"
+    "url": "git+https://github.com/D-Andreev/mysql-adapter.git"
   },
   "bugs": {
     "url": "https://github.com/D-Andreev/mysql-adapter/issues"
@@ -33,5 +33,8 @@
     "sinon-chai": "^2.8.0",
     "zombie": "^4.2.1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://github.com/D-Andreev/mysql-adapter#readme",
+  "main": "index.js",
+  "readme": "README.md"
 }
