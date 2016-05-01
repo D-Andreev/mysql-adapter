@@ -5,11 +5,12 @@ machine:
 dependencies:
   override:
     - node -v
-    # - node ./node_modules/coffee/index.js -c .
-    #- rm -r ./node_modules
-    #- npm install -g coffeelint
-    #- coffeelint -f coffeelint.json .
-    #- npm install
+    - npm install -g coffee-script
+    - rm -r ./node_modules
+    - coffee -c .
+    - npm install -g coffeelint
+    - coffeelint -f coffeelint.json .
+    - npm install
     - sh ./features/scripts/install.sh
 
 test:
