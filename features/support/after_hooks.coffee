@@ -3,5 +3,5 @@
 
 module.exports = ->
 
-  @After (scenario, done) ->
+  @After (scenario) ->
     return
