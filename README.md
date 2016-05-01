@@ -26,10 +26,9 @@ conn.query 'SELECT * from table', (err, res) ->
 ```
 
 ```coffeescript
-table = 'table'
-
 # Select all columns in a table without where clause
 # SELECT * FROM `table`
+table = 'table'
 conn.selectAll {table}, (err, res) ->
 
 # Select all columns in a table with where clause
