@@ -44,7 +44,7 @@ module.exports = ->
 
 
   @When /^I select all columns in "([^"]*)" without where clause/, (table, done) ->
-    mysql.selectAll {table}, (err, res) =>
+    mysql.selectAll {table}, (err, res) ->
       return done err if err
       results = res
       done()
@@ -54,7 +54,7 @@ module.exports = ->
     where = {}
     _.forEach whereClause.raw(), (el) -> where[el[0]] = el[1]
 
-    mysql.selectAll {table, where}, (err, res) =>
+    mysql.selectAll {table, where}, (err, res) ->
       return done err if err
       results = res
       done()
@@ -71,7 +71,7 @@ module.exports = ->
 
 
   @When /^I perform the select on "([^"]*)"$/, (table, done) ->
-    mysql.select {table, columns, where}, (err, res) =>
+    mysql.select {table, columns, where}, (err, res) ->
       return done err if err
       results = res
       done()
