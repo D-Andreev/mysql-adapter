@@ -1,5 +1,6 @@
 dependencies:
   override:
+    - node -v
     - coffee -c .
     - rm -r ./node_modules
     - npm install -g coffeelint
