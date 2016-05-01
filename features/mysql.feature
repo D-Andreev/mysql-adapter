@@ -1,4 +1,3 @@
-@Before @After
 Feature: I can do different mysql interactions
 
   Background: I connect to mysql
