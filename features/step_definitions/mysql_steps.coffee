@@ -11,7 +11,6 @@ joinType = ''
 table1 = ''
 table2 = ''
 updatedRow = {}
-output = true
 
 
 module.exports = ->

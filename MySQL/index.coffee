@@ -53,7 +53,7 @@ module.exports = class MySQL
 
 
   update: ({table, row, where}, done) ->
-    sql = "UPDATE #{table} #{@_buildSetClause row}#{output}#{@_buildWhereClause where}"
+    sql = "UPDATE #{table} #{@_buildSetClause row} #{@_buildWhereClause where}"
     console.log 'sql', sql
     @query sql, (err, res) ->
       console.log 'res', err, res
