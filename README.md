@@ -11,6 +11,7 @@
 # Make your mysql config
 config = 
   host: 'localhost'
+  user: 'root'
   password: ''
   database: 'database'
   
@@ -78,10 +79,11 @@ conn.insertOne {table, row, ignore}, (err, res) ->
 ```
 
 ```coffeescript
-# Update a row
+# Update a row with output
 ###
  UPDATE `users`
  SET `first_name`='new_first_name' && `last_name`='new_last_name' && `email`='new_email'
+ OUTPUT INSERTED
  WHERE `id` = 1
 ###
 table = 'users'
@@ -90,5 +92,6 @@ row =
   last_name: 'new_last_name'
   email: 'new_email'
 where = id: 1
-conn.insertOne {table, row, where}, (err, res) ->
+output = true
+conn.update {table, row, where, output}, (err, res) ->
 ```

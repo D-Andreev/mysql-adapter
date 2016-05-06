@@ -12,6 +12,7 @@ table1 = ''
 table2 = ''
 updatedRow = {}
 
+
 module.exports = ->
 
   @When /^I am connected to mysql$/, (done) ->
