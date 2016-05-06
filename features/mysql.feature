@@ -169,7 +169,7 @@ Feature: I can do different mysql interactions
       | password   | pass3           |
 
 
-  Scenario: I can update a row in a table
+  Scenario: I can update a row in a table with output
     When I set the updated row to
       | first_name | first3          |
       | last_name  | last3           |
