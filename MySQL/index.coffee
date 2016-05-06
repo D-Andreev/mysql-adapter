@@ -52,8 +52,9 @@ module.exports = class MySQL
     @query sql, done
 
 
-  update: ({table, row, where}, done) ->
-    sql = "UPDATE #{table} #{@_buildSetClause row} #{@_buildWhereClause where}"
+  update: ({table, row, output, where}, done) ->
+    output = if output then ' OUTPUT INSERTED ' else ' '
+    sql = "UPDATE #{table} #{@_buildSetClause row}#{output}#{@_buildWhereClause where}"
 
     @query sql, done
 

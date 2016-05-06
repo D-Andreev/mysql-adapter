@@ -208,13 +208,25 @@ describe 'MySQL', ->
 
   describe 'update', ->
 
+    context 'with ouput', ->
+      beforeEach ->
+        @mysql.update {@table, @row, output: true}, @done
+        @expectedSql = "
+                          UPDATE users
+                          SET first_name = 'firstName', last_name = 'lastName', email = 'email'
+                          OUTPUT INSERTED"
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
     context 'without where clause', ->
 
       beforeEach ->
         @mysql.update {@table, @row}, @done
         @expectedSql = "
           UPDATE users
-           SET first_name = 'firstName', last_name = 'lastName', email = 'email'"
+          SET first_name = 'firstName', last_name = 'lastName', email = 'email'"
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql

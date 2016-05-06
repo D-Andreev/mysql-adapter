@@ -11,6 +11,8 @@ joinType = ''
 table1 = ''
 table2 = ''
 updatedRow = {}
+output = true
+
 
 module.exports = ->
 
@@ -125,6 +127,13 @@ module.exports = ->
 
   @When /^I update the row in "([^"]*)"/, (table, done) ->
     mysql.update {table, row: updatedRow, where}, (err, res) ->
+      return done err if err
+      results = res
+      done()
+
+
+  @When /^I set output to true$/, ->
+    mysql.update {table, row: updatedRow, where, output: true}, (err, res) ->
       return done err if err
       results = res
       done()
