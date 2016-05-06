@@ -132,7 +132,7 @@ module.exports = ->
       done()
 
 
-  @When /^I set output to true$/, ->
+  @When /^I set output to true$/, (done) ->
     mysql.update {table: 'users', row: updatedRow, where, output: true}, (err, res) ->
       output = false
       return done err if err
