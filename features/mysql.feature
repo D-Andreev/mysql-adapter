@@ -167,19 +167,3 @@ Feature: I can do different mysql interactions
       | last_name  | last3           |
       | email      | email@mail.com3 |
       | password   | pass3           |
-
-
-  Scenario: I can update a row in a table with output
-    When I set the updated row to
-      | first_name | first3          |
-      | last_name  | last3           |
-      | email      | email@mail.com3 |
-      | password   | pass3           |
-    And I set output to true
-    And I update the row in "users"
-    Then I receive the following results
-      | id         | 2               |
-      | first_name | first3          |
-      | last_name  | last3           |
-      | email      | email@mail.com3 |
-      | password   | pass3           |

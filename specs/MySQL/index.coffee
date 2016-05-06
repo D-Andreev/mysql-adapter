@@ -210,11 +210,10 @@ describe 'MySQL', ->
 
     context 'with ouput', ->
       beforeEach ->
-        @mysql.update {@table, @row, output: true}, @done
+        @mysql.update {@table, @row}, @done
         @expectedSql = "
                           UPDATE users
-                          SET first_name = 'firstName', last_name = 'lastName', email = 'email'
-                          OUTPUT INSERTED"
+                          SET first_name = 'firstName', last_name = 'lastName', email = 'email'"
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
