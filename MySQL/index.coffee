@@ -55,8 +55,10 @@ module.exports = class MySQL
   update: ({table, row, output, where}, done) ->
     output = if output then ' OUTPUT INSERTED ' else ' '
     sql = "UPDATE #{table} #{@_buildSetClause row}#{output}#{@_buildWhereClause where}"
-
-    @query sql, done
+    console.log 'sql', sql
+    @query sql, (err, res) ->
+      console.log 'res', err, res
+      done err, res
 
 
   ping: (done) ->

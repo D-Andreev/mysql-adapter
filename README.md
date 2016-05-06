@@ -11,6 +11,7 @@
 # Make your mysql config
 config = 
   host: 'localhost'
+  user: 'root'
   password: ''
   database: 'database'
   
@@ -92,5 +93,5 @@ row =
   email: 'new_email'
 where = id: 1
 output = true
-conn.insertOne {table, row, where, output}, (err, res) ->
+conn.update {table, row, where, output}, (err, res) ->
 ```
