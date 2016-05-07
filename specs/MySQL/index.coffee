@@ -325,3 +325,13 @@ describe 'MySQL', ->
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+  describe 'truncate', ->
+
+    beforeEach ->
+      @mysql.truncate {@table}, @done
+      @expectedSql = 'TRUNCATE TABLE `users`'
+
+    it 'builds the sql and sends it', ->
+      expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
