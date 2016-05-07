@@ -67,6 +67,18 @@ module.exports = ->
       done()
 
 
+  @When /^I delete from "([^"]*)" where$/, (table, whereClause, done) ->
+    where = {}
+    _.forEach whereClause.raw(), (el) ->
+      where[el[0]] = el[1]
+
+    mysql.delete {table, where, whereOperator}, (err, res) ->
+      whereOperator = null
+      return done err if err
+      results = res
+      done()
+
+
   @When /^I set to select the following columns$/, (cols) ->
     columns = []
     _.forEach cols.raw(), (el) -> columns.push el[0]

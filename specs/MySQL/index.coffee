@@ -289,3 +289,39 @@ describe 'MySQL', ->
     it 'pings', ->
       @mysql.ping @done
       expect(@mysql.conn.ping).to.have.been.calledWithExactly @done
+
+
+  describe 'delete', ->
+
+    context 'without where clause', ->
+
+      beforeEach ->
+        @mysql.delete {@table}, @done
+        @expectedSql = 'DELETE FROM users'
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+    context 'with where clause', ->
+
+      beforeEach ->
+        @mysql.delete {@table, @where}, @done
+        @expectedSql = 'DELETE FROM users WHERE `id` = 1'
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+    context 'with where clause and OR operator', ->
+
+      beforeEach ->
+        where =
+          id: 1, name: 'name'
+        @mysql.delete {@table, where, whereOperator: 'OR'}, @done
+        @expectedSql = "DELETE FROM users WHERE `id` = 1 OR `name` = 'name'"
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql

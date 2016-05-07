@@ -180,3 +180,10 @@ Feature: I can do different mysql interactions
       | last_name  | last3           |
       | email      | email@mail.com3 |
       | password   | pass3           |
+
+
+  Scenario: I can delete from a table with where clause and OR operator
+    And I set the where operator to "OR"
+    When I delete from "users" where
+      | id         | 1     |
+      | first_name | first |

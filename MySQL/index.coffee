@@ -58,6 +58,12 @@ module.exports = class MySQL
     @query sql, done
 
 
+  delete: ({table, where, whereOperator}, done) ->
+    sql = "DELETE FROM #{table} #{@_buildWhereClause where, whereOperator}"
+
+    @query sql, done
+
+
   ping: (done) ->
     @conn.ping done
 
