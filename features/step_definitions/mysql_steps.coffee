@@ -146,3 +146,9 @@ module.exports = ->
 
   @When /^I set the where operator to "([^"]*)"$/, (operator) ->
     whereOperator = operator
+
+
+  @Then /^I truncate "([^"]*)"$/, (table, done) ->
+    mysql.truncate {table}, (err, res) ->
+      return done err if err
+      done()

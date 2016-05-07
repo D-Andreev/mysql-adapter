@@ -64,6 +64,12 @@ module.exports = class MySQL
     @query sql, done
 
 
+  truncate: ({table}, done) ->
+    sql = "TRUNCATE TABLE `#{table}`"
+
+    @query sql, done
+
+
   ping: (done) ->
     @conn.ping done
 

@@ -187,3 +187,7 @@ Feature: I can do different mysql interactions
     When I delete from "users" where
       | id         | 1     |
       | first_name | first |
+
+
+  Scenario: I can truncate a table
+    Then I truncate "users"
