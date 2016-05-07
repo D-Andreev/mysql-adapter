@@ -26,21 +26,21 @@ module.exports = class MySQL
     @conn.query query.trim(), done
 
 
-  selectAll: ({table, where}, done) ->
-    sql = "SELECT * FROM #{table} #{@_buildWhereClause where}"
+  selectAll: ({table, where, whereOperator}, done) ->
+    sql = "SELECT * FROM #{table} #{@_buildWhereClause where, whereOperator}"
 
     @query sql, done
 
 
-  select: ({table, columns, where}, done) ->
-    sql = "SELECT #{@_buildColumns columns} FROM #{table} #{@_buildWhereClause where}"
+  select: ({table, columns, where, whereOperator}, done) ->
+    sql = "SELECT #{@_buildColumns columns} FROM #{table} #{@_buildWhereClause where, whereOperator}"
 
     @query sql, done
 
     
-  join: ({table1, table2, joinType, columns, joinBy, where}, done) ->
+  join: ({table1, table2, joinType, columns, joinBy, where, whereOperator}, done) ->
     sql = "SELECT #{@_buildColumns columns} FROM `#{table1}` #{joinType} "
-    sql += "JOIN `#{table2}` on #{@_buildJoin table1, table2, joinBy} #{@_buildWhereClause where}"
+    sql += "JOIN `#{table2}` on #{@_buildJoin table1, table2, joinBy} #{@_buildWhereClause where, whereOperator}"
 
     @query sql, done
 
@@ -52,8 +52,8 @@ module.exports = class MySQL
     @query sql, done
 
 
-  update: ({table, row, where}, done) ->
-    sql = "UPDATE #{table} #{@_buildSetClause row} #{@_buildWhereClause where}"
+  update: ({table, row, where, whereOperator}, done) ->
+    sql = "UPDATE #{table} #{@_buildSetClause row} #{@_buildWhereClause where, whereOperator}"
 
     @query sql, done
 
@@ -77,11 +77,12 @@ module.exports = class MySQL
     sql.substring 0, sql.length - 4
 
 
-  _buildWhereClause: (where) ->
+  _buildWhereClause: (where, whereOperator) ->
     return '' if _.isUndefined where
 
     sql = 'WHERE '
-    _.forEach where, (v, k) => sql += "`#{k}` = #{@_escape v} && "
+    whereOperator ?= 'AND'
+    _.forEach where, (v, k) => sql += "`#{k}` = #{@_escape v} #{whereOperator} "
 
     sql.substring 0, sql.length - 4
 
