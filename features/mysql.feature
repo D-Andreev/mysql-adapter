@@ -48,6 +48,19 @@ Feature: I can do different mysql interactions
       | password   | pass           |
 
 
+  Scenario: I can select all columns in a table with where clause and OR operator
+    And I set the where operator to "OR"
+    When I select all columns in "users" where
+      | id         | 1     |
+      | first_name | first |
+    Then I receive the following results
+      | id         | 1              |
+      | first_name | first          |
+      | last_name  | last           |
+      | email      | email@mail.com |
+      | password   | pass           |
+
+
   Scenario: I can select specific columns in a table without where clause
     When I set to select the following columns
       | id         |

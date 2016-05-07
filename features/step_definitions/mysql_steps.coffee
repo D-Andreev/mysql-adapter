@@ -11,6 +11,7 @@ joinType = ''
 table1 = ''
 table2 = ''
 updatedRow = {}
+whereOperator = null
 
 module.exports = ->
 
@@ -59,7 +60,8 @@ module.exports = ->
     where = {}
     _.forEach whereClause.raw(), (el) -> where[el[0]] = el[1]
 
-    mysql.selectAll {table, where}, (err, res) ->
+    mysql.selectAll {table, where, whereOperator}, (err, res) ->
+      whereOperator = null
       return done err if err
       results = res
       done()
@@ -128,3 +130,7 @@ module.exports = ->
       return done err if err
       results = res
       done()
+
+
+  @When /^I set the where operator to "([^"]*)"$/, (operator) ->
+    whereOperator = operator

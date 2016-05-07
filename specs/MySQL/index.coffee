@@ -90,6 +90,17 @@ describe 'MySQL', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
 
 
+    context 'with where clause and OR operator', ->
+      beforeEach ->
+        where = id: 1, name: 'name'
+        @mysql.selectAll {@table, where, whereOperator: 'OR'}, @done
+        @expectedSql = "SELECT * FROM users WHERE `id` = 1 OR `name` = 'name'"
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
   describe 'select', ->
 
     context 'without where clause', ->
@@ -108,6 +119,18 @@ describe 'MySQL', ->
       beforeEach ->
         @mysql.select {@table, @columns, @where}, @done
         @expectedSql = 'SELECT `id`, `first_name` FROM users WHERE `id` = 1'
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+    context 'with where clause and OR operator', ->
+      beforeEach ->
+        where =
+          id: 1, name: 'name'
+        @mysql.select {@table, where, whereOperator: 'OR'}, @done
+        @expectedSql = "SELECT * FROM users WHERE `id` = 1 OR `name` = 'name'"
 
 
       it 'builds the sql and sends it', ->
@@ -178,6 +201,20 @@ describe 'MySQL', ->
           expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
 
 
+      context 'with OR operator', ->
+        beforeEach ->
+          where =
+            id: 1, name: 'name'
+          @mysql.join {@table1, @table2, @columns, where, whereOperator: 'OR', @joinBy, @joinType}, @done
+          @expectedSql = "
+                                SELECT `id`, `first_name` FROM `users`
+                                RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1 OR `name` = 'name'"
+
+
+        it 'builds the sql and sends it', ->
+          expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
   describe 'insertOne', ->
 
     context 'without ignore', ->
@@ -228,6 +265,20 @@ describe 'MySQL', ->
                   UPDATE users
                    SET first_name = 'firstName', last_name = 'lastName', email = 'email'
                    WHERE `id` = 1"
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+    context 'with where clause and OR operator', ->
+      beforeEach ->
+        where =
+          id: 1, name: 'name'
+        @mysql.update {@table, @row, where, whereOperator: 'OR'}, @done
+        @expectedSql = "
+                                  UPDATE users
+                                   SET first_name = 'firstName', last_name = 'lastName', email = 'email'
+                                   WHERE `id` = 1 OR `name` = 'name'"
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
