@@ -30,6 +30,15 @@ describe 'MySQL', ->
       first_name: 'firstName'
       last_name: 'lastName'
       email: 'email'
+    @rows = [
+      first_name: 'firstName1'
+      last_name: 'lastName1'
+      email: 'email1'
+    ,
+      first_name: 'firstName2'
+      last_name: 'lastName2'
+      email: 'email2'
+    ]
 
 
   describe 'constructor', ->
@@ -151,9 +160,7 @@ describe 'MySQL', ->
 
         beforeEach ->
           @mysql.join {@table1, @table2, @joinBy, @joinType}, @done
-          @expectedSql = '
-                    SELECT * FROM `users`
-                    RIGHT JOIN `pictures` on users.id=pictures.picture_id'
+          @expectedSql = 'SELECT * FROM `users` RIGHT JOIN `pictures` on users.id=pictures.picture_id'
 
 
         it 'builds the sql and sends it', ->
@@ -164,9 +171,7 @@ describe 'MySQL', ->
 
         beforeEach ->
           @mysql.join {@table1, @table2, @columns, @joinBy, @joinType}, @done
-          @expectedSql = '
-                              SELECT `id`, `first_name` FROM `users`
-                              RIGHT JOIN `pictures` on users.id=pictures.picture_id'
+          @expectedSql = ' SELECT `id`, `first_name` FROM `users` RIGHT JOIN `pictures` on users.id=pictures.picture_id'
 
 
         it 'builds the sql and sends it', ->
@@ -179,9 +184,7 @@ describe 'MySQL', ->
 
         beforeEach ->
           @mysql.join {@table1, @table2, @where, @joinBy, @joinType}, @done
-          @expectedSql = '
-            SELECT * FROM `users`
-            RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
+          @expectedSql = ' SELECT * FROM `users` RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
 
 
         it 'builds the sql and sends it', ->
@@ -192,9 +195,7 @@ describe 'MySQL', ->
 
         beforeEach ->
           @mysql.join {@table1, @table2, @columns, @where, @joinBy, @joinType}, @done
-          @expectedSql = '
-            SELECT `id`, `first_name` FROM `users`
-            RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
+          @expectedSql = ' SELECT `id`, `first_name` FROM `users` RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
 
 
         it 'builds the sql and sends it', ->
@@ -207,8 +208,8 @@ describe 'MySQL', ->
             id: 1, name: 'name'
           @mysql.join {@table1, @table2, @columns, where, whereOperator: 'OR', @joinBy, @joinType}, @done
           @expectedSql = "
-                                SELECT `id`, `first_name` FROM `users`
-                                RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1 OR `name` = 'name'"
+            SELECT `id`, `first_name` FROM `users`
+            RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1 OR `name` = 'name'"
 
 
         it 'builds the sql and sends it', ->
@@ -235,8 +236,36 @@ describe 'MySQL', ->
       beforeEach ->
         @mysql.insertOne {@table, @row, ignore: true}, @done
         @expectedSql = "
-                  INSERT IGNORE INTO `users` (`first_name`, `last_name`, `email`)
-                  VALUES ('firstName', 'lastName', 'email')"
+          INSERT IGNORE INTO `users` (`first_name`, `last_name`, `email`)
+          VALUES ('firstName', 'lastName', 'email')"
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+  describe 'insertMany', ->
+
+    context 'without ignore', ->
+
+      beforeEach ->
+        @mysql.insertMany {@table, @row, ignore: false}, @done
+        @expectedSql = "
+          INSERT  INTO `users` (`first_name`, `last_name`, `email`)
+          VALUES ('firstName1', 'lastName1', 'email1'), ('firstName2', 'lastName2', 'email2')"
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+    context 'with ignore', ->
+
+      beforeEach ->
+        @mysql.insertOne {@table, @row, ignore: true}, @done
+        @expectedSql = "
+          INSERT IGNORE INTO `users` (`first_name`, `last_name`, `email`)
+          VALUES ('firstName1', 'lastName1', 'email1'), ('firstName2', 'lastName2', 'email2')"
 
 
       it 'builds the sql and sends it', ->
@@ -262,9 +291,9 @@ describe 'MySQL', ->
       beforeEach ->
         @mysql.update {@table, @row, @where}, @done
         @expectedSql = "
-                  UPDATE users
-                   SET first_name = 'firstName', last_name = 'lastName', email = 'email'
-                   WHERE `id` = 1"
+          UPDATE users
+           SET first_name = 'firstName', last_name = 'lastName', email = 'email'
+           WHERE `id` = 1"
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
@@ -276,9 +305,9 @@ describe 'MySQL', ->
           id: 1, name: 'name'
         @mysql.update {@table, @row, where, whereOperator: 'OR'}, @done
         @expectedSql = "
-                                  UPDATE users
-                                   SET first_name = 'firstName', last_name = 'lastName', email = 'email'
-                                   WHERE `id` = 1 OR `name` = 'name'"
+          UPDATE users
+           SET first_name = 'firstName', last_name = 'lastName', email = 'email'
+           WHERE `id` = 1 OR `name` = 'name'"
 
       it 'builds the sql and sends it', ->
         expect(@mysql.conn.query).to.have.been.calledWith @expectedSql

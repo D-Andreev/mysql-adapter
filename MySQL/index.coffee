@@ -52,6 +52,16 @@ module.exports = class MySQL
     @query sql, done
 
 
+  insertMany: ({table, rows, ignore}, done) ->
+    ignore = if ignore then 'IGNORE' else ''
+    sql = "INSERT #{ignore} INTO `#{table}` (#{@_buildColumns _.keys row}) VALUES "
+    _.forEach rows, (row) ->
+      sql += "(#{@_escape _.values row}), "
+    sql.substring 0, sql.length - 2
+
+    @query sql, done
+
+
   update: ({table, row, where, whereOperator}, done) ->
     sql = "UPDATE #{table} #{@_buildSetClause row} #{@_buildWhereClause where, whereOperator}"
 
