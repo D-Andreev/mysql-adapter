@@ -30,6 +30,15 @@ describe 'MySQL', ->
       first_name: 'firstName'
       last_name: 'lastName'
       email: 'email'
+    @rows = [
+      first_name: 'firstName1'
+      last_name: 'lastName1'
+      email: 'email1'
+    ,
+      first_name: 'firstName2'
+      last_name: 'lastName2'
+      email: 'email2'
+    ]
 
 
   describe 'constructor', ->
@@ -211,6 +220,31 @@ describe 'MySQL', ->
         @mysql.insertOne {@table, @row, ignore: true}, @done
         # coffeelint: disable=max_line_length
         @expectedSql = "INSERT IGNORE INTO `users` (`first_name`, `last_name`, `email`) VALUES ('firstName', 'lastName', 'email')"
+      # coffeelint: enable=max_line_length
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+  describe 'insertMany', ->
+    context 'without ignore', ->
+      beforeEach ->
+        @mysql.insertMany {@table, @rows, ignore: false}, @done
+        # coffeelint: disable=max_line_length
+        @expectedSql = "INSERT  INTO `users` (`first_name`, `last_name`, `email`) VALUES ('firstName1', 'lastName1', 'email1'), ('firstName2', 'lastName2', 'email2')"
+        # coffeelint: enable=max_line_length
+
+
+      it 'builds the sql and sends it', ->
+        expect(@mysql.conn.query).to.have.been.calledWith @expectedSql
+
+
+    context 'with ignore', ->
+      beforeEach ->
+        @mysql.insertMany {@table, @rows, ignore: true}, @done
+        # coffeelint: disable=max_line_length
+        @expectedSql = "INSERT IGNORE INTO `users` (`first_name`, `last_name`, `email`) VALUES ('firstName1', 'lastName1', 'email1'), ('firstName2', 'lastName2', 'email2')"
       # coffeelint: enable=max_line_length
 
 
