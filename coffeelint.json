@@ -62,7 +62,7 @@
   },
   "no_debugger": {
     "level": "error",
-    "console": false
+    "console": true
   },
   "no_empty_functions": {
     "level": "error"

@@ -58,7 +58,7 @@ module.exports = class MySQL
     _.forEach rows, (row) =>
       sql += "(#{@_escape _.values row}), "
     sql = sql.substring 0, sql.length - 2
-    console.log 'SQL: ', sql
+
     @query sql, done
 
 
