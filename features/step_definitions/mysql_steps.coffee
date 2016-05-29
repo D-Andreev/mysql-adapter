@@ -134,13 +134,15 @@ module.exports = ->
   @When /^I insert into "([^"]*)" the rows$/, (table, data, done) ->
     rows = []
     i = 0
+    c = 0
     while i < 2
       row = {}
       j = 0
       while j < 4
-        el = data.raw()[j]
+        el = data.raw()[c]
         row[el[0]] = el[1]
         j++
+        c++
       rows.push row
       i++
 
