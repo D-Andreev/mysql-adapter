@@ -195,7 +195,8 @@ describe 'MySQL', ->
 
         beforeEach ->
           @mysql.join {@table1, @table2, @columns, @where, @joinBy, @joinType}, @done
-          @expectedSql = ' SELECT `id`, `first_name` FROM `users` RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
+          @expectedSql = ' SELECT `id`, `first_name` FROM `users`
+          RIGHT JOIN `pictures` on users.id=pictures.picture_id WHERE `id` = 1'
 
 
         it 'builds the sql and sends it', ->
