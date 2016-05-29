@@ -138,6 +138,7 @@ module.exports = ->
       row = {}
       j = 0
       while j < 4
+        el = data.raw()[j]
         row[el[0]] = el[1]
         j++
       rows.push row
