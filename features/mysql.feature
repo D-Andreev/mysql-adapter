@@ -168,11 +168,11 @@ Feature: I can do different mysql interactions
     When I insert into "users" the rows
       | first_name | first2          |
       | last_name  | last2           |
-      | email      | email@mail.com2 |
+      | email      | email1          |
       | password   | pass2           |
       | first_name | first3          |
       | last_name  | last3           |
-      | email      | email@mail.com3 |
+      | email      | email2          |
       | password   | pass3           |
     When I select all columns in "users" where
       | id         | 2      |
@@ -181,7 +181,7 @@ Feature: I can do different mysql interactions
       | id         | 2               |
       | first_name | first2          |
       | last_name  | last2           |
-      | email      | email@mail.com2 |
+      | email      | email1          |
       | password   | pass2           |
     When I select all columns in "users" where
       | id         | 3      |
@@ -190,7 +190,7 @@ Feature: I can do different mysql interactions
       | id         | 3               |
       | first_name | first3          |
       | last_name  | last3           |
-      | email      | email@mail.com3 |
+      | email      | email2          |
       | password   | pass3           |
 
 
