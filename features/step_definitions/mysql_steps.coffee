@@ -140,6 +140,7 @@ module.exports = ->
       j = 0
       while j < 4
         el = data.raw()[c]
+        console.log 'inserting row', el
         row[el[0]] = el[1]
         j++
         c++
