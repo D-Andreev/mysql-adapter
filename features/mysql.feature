@@ -175,19 +175,15 @@ Feature: I can do different mysql interactions
       | email      | email2          |
       | password   | pass3           |
     When I select all columns in "users" where
-      | id         | 2      |
-      | first_name | first2 |
+      | email | email1 |
     Then I receive the following results
-      | id         | 2               |
       | first_name | first2          |
       | last_name  | last2           |
       | email      | email1          |
       | password   | pass2           |
     When I select all columns in "users" where
-      | id         | 3      |
-      | first_name | first3 |
+      | email | email2 |
     Then I receive the following results
-      | id         | 3               |
       | first_name | first3          |
       | last_name  | last3           |
       | email      | email2          |
