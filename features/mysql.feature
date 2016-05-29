@@ -164,6 +164,36 @@ Feature: I can do different mysql interactions
       | password   | pass2           |
 
 
+  Scenario: I can insert rows in a table
+    When I insert into "users" the rows
+      | first_name | first2          |
+      | last_name  | last2           |
+      | email      | email@mail.com2 |
+      | password   | pass2           |
+      | first_name | first3          |
+      | last_name  | last3           |
+      | email      | email@mail.com3 |
+      | password   | pass3           |
+    When I select all columns in "users" where
+      | id         | 2      |
+      | first_name | first2 |
+    Then I receive the following results
+      | id         | 2               |
+      | first_name | first2          |
+      | last_name  | last2           |
+      | email      | email@mail.com2 |
+      | password   | pass2           |
+    When I select all columns in "users" where
+      | id         | 3      |
+      | first_name | first3 |
+    Then I receive the following results
+      | id         | 3               |
+      | first_name | first3          |
+      | last_name  | last3           |
+      | email      | email@mail.com3 |
+      | password   | pass3           |
+
+
   Scenario: I can update a row in a table
     When I set the updated row to
       | first_name | first3          |

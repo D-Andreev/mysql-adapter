@@ -131,6 +131,24 @@ module.exports = ->
       done()
 
 
+  @When /^I insert into "([^"]*)" the rows$/, (table, data, done) ->
+    rows = []
+    i = 0
+    while i < 2
+      row = {}
+      j = 0
+      while j < 4
+        row[el[0]] = el[1]
+        j++
+      rows.push row
+      i++
+
+    mysql.insertMany {table, rows, ignore: false}, (err, res) ->
+      return done err if err
+      results = res
+      done()
+
+
   @When /^I set the updated row to$/, (row) ->
     updatedRow = {}
     _.forEach row.raw(), (el) ->
