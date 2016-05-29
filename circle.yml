@@ -7,6 +7,7 @@ dependencies:
     - node -v
     - npm install -g coffee-script
     - npm install -g coffeelint
+    - rm -r ./node_modules
     - coffee -c .
     - coffeelint -f coffeelint.json .
     - npm install
